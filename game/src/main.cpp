@@ -12,7 +12,7 @@ const unsigned int TARGET_FPS = 50;
 float time = 0;
 int main()
 {
-    InitWindow(1200, 800, "Physics-1");
+    InitWindow(1200, 800," Thomas Alves 101422210 - if you can see this then good foryou becasue i can't");
     SetTargetFPS(TARGET_FPS);
 
     while (!WindowShouldClose())
