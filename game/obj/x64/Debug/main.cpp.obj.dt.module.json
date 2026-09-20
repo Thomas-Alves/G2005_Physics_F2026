@@ -3,10 +3,10 @@
     "revision": 0,
     "rules": [
         {
-            "primary-output": "C:\\Users\\101422210\\Documents\\GitHub\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\main.obj",
+            "primary-output": "C:\\Game2005-F2026\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\main.obj",
             "outputs": [
-                "C:\\Users\\101422210\\Documents\\GitHub\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\main.cpp.obj.dt.module.json",
-                "C:\\Users\\101422210\\Documents\\GitHub\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\main.cpp.obj.dt.d.json"
+                "C:\\Game2005-F2026\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\main.cpp.obj.dt.module.json",
+                "C:\\Game2005-F2026\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\main.cpp.obj.dt.d.json"
             ],
             "requires": []
         }

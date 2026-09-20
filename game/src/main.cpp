@@ -7,34 +7,66 @@ See documentation here: https://www.raylib.com/, and examples here: https://www.
 #include "raymath.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
-
+//target fps
 const unsigned int TARGET_FPS = 50;
+//screen dimentions 
+int screenHeight = 800;
+int screenWidth = 1200;
+
+//launch, speed, angle
+Vector2 launchPosition;
+float launchSpeed = 100.0f;
+float launchAngle = 0.0f;
+float LaunchAngleAdjustmentSpeed = 50.0f;
+Vector2 velocity;
+
+//bird start postion 
+Vector2 birdPosition;
+
+//amplitude 
+float b = 100;
+
+//frequency 
+float a = 100;
+
+//time 
 float time = 0;
+
+
 int main()
 {
-    InitWindow(1200, 800," lab 1- game2005");
+    InitWindow(screenWidth, screenHeight," lab 1- game2005");
     SetTargetFPS(TARGET_FPS);
+    //birdPosition = { 30, (float)(screenHeight - 50) };
+    launchPosition = { 30, (float)(screenHeight - 50) };
+    
 
     while (!WindowShouldClose())
     {
+
         BeginDrawing();
-            ClearBackground(WHITE);
-            DrawText("Thomas Alves ID:101422210", 10, 10, 20, LIGHTGRAY);
+        ClearBackground(SKYBLUE);
+        DrawText("Thomas Alves ID:101422210", 10, 780, 15, BLACK);
 
 
-            time += 1;
+        // start back video(JOSS LAB ONLINE) at 1:08:00 
 
-            GuiSliderBar(Rectangle{ 60, 5, 1000, 10 }, "Time", TextFormat("%.2f", time), &time, 0, 240);
-            //set up a iretive game loop with a repeting update function, also render time on the top right of the window.
-            //move and object which starts at a given postion and moves each fram acorrding to the equations from the lap overview. 
+        GuiSlider(Rectangle{ 5, 5, 100, 20 }, "launchSpeed", TextFormat("%.2f", launchSpeed), &launchSpeed, 1, 500);
+        GuiSlider(Rectangle{ 5, 30, 100, 20 }, "launchAngle", TextFormat("%.2f", launchAngle), &launchAngle, 0, 90);
+        
+        if (IsKeyDown(KEY_UP)) {
+            launchPosition.y -= LaunchAngleAdjustmentSpeed * GetFrameTime();
 
-            ClearBackground(RAYWHITE);
-
-            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+        } if (IsKeyDown(KEY_DOWN)) {
+            launchPosition.y += LaunchAngleAdjustmentSpeed * GetFrameTime();
+        }
+            
+        velocity = { launchSpeed, 0 };
+        DrawCircleV(launchPosition, 10, RED);
+        DrawLineEx(launchPosition, launchPosition + velocity, 1, BLACK);
+            
 
             EndDrawing();
-
-        EndDrawing();
     }
 
     CloseWindow();
