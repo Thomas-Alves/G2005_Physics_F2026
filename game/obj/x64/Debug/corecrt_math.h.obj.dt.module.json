@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "C:\\Game2005-F2026\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\corecrt_math.obj",
+            "outputs": [
+                "C:\\Game2005-F2026\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\corecrt_math.h.obj.dt.module.json",
+                "C:\\Game2005-F2026\\G2005_Physics_F2026\\game\\obj\\x64\\Debug\\corecrt_math.h.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}
