@@ -94,12 +94,12 @@ int main()
         DrawText("Thomas Alves ID:101422210", 10, 780, 15, BLACK);
 
 
-        // start back video(JOSS LAB ONLINE) at 1:08:00 
+        
         DrawRectangle(0, 0, 400, 600, Color{ 0, 0, 0, 50 });
 
         GuiSlider(Rectangle{ 5, 5, 100, 20 }, "launchSpeed", TextFormat("%.2f", launchSpeed), &launchSpeed, 1, 1000);
         GuiSlider(Rectangle{ 5, 30, 100, 20 }, "launchAngle", TextFormat("%.2f", launchAngle), &launchAngle, -90, 0);
-        GuiSlider(Rectangle{ 5, 60, 100, 20 }, "gravity", TextFormat("%.2f", sim.gravity.y), &sim.gravity.y, -500, 500);
+        GuiSlider(Rectangle{ 5, 60, 100, 20 }, "gravity", TextFormat("%.2f", sim.gravity.y), &sim.gravity.y, 0, 200);
         GuiSlider(Rectangle{ 5, 90, 100, 20 }, "drag", TextFormat("%.2f", spawnDrag), &spawnDrag, 0, 1);
 
         if (IsKeyDown(KEY_UP)) {
