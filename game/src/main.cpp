@@ -7,9 +7,10 @@ See documentation here: https://www.raylib.com/, and examples here: https://www.
 #include "raymath.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
+#include <vector>
 //target fps
 const unsigned int TARGET_FPS = 50;
-const float FIXED_DELTA_TIME = 1.0f / (float)TARGET_FPS;//fixed delta time veraible for physics simulations
+
 //screen dimentions 
 int screenHeight = 800;
 int screenWidth = 1200;
@@ -23,15 +24,52 @@ float LaunchAngleAdjustmentSpeed = 50.0f;
 //bird (struct to hold postion and veloctiy state (lab2) 
 struct PhyscicsBody
 {
-    Vector2 position;
-    Vector2 velocity;
+public:
+    Vector2 position = Vector2{ 0, 0 };
+    Vector2 velocity = Vector2{ 0, 0 };
+    Color color = RED;
+    float radius = 10.0f;
 
 };
-PhyscicsBody bird = { Vector2{-1000, -1000}, Vector2{0,0} };
+// class to contain global properties of physics simulation, and to opertate on them each frame 
+class PhysicsSimulation 
+{
+public:
+    std::vector<PhyscicsBody> bodies; // a contatianer for all PhysicsBody in the simulation
+    Vector2 gravity = { 0, 100 }; //Global acceleration due to gravity, in pixels/second/second
+    const float FIXED_DELTA_TIME = 1.0f / (float)TARGET_FPS;//fixed delta time veraible for physics simulations
+
+
+    void Update() 
+    {
+        for (int i = 0; i < bodies.size(); i++)
+        {
+            //PhyscicsBody body = bodies[i];
+            //velocity is defind in pixels/seconds (we need pixels/frame)
+            bodies[i].position += bodies[i].velocity * FIXED_DELTA_TIME;
+            //acceleration is change in velocity over time, gravity is our acceleration in pixels/sec/sec (px/sec^2
+            bodies[i].velocity += gravity * FIXED_DELTA_TIME;
+        }
+    }
+
+    void Draw() 
+    {
+        for (int i = 0; bodies.size(); i++)
+        {
+            DrawCircleV(bodies[i].position, bodies[i].radius, bodies[i].color);
+        }
+
+    }
+};
+
+//PhyscicsBody bird;// = { Vector2{-1000, -1000}, Vector2{0,0} };
+ PhysicsSimulation sim;
 
 
 int main()
 {
+    
+
     InitWindow(screenWidth, screenHeight," lab 1- game2005");
     SetTargetFPS(TARGET_FPS);
     //birdPosition = { 30, (float)(screenHeight - 50) };
@@ -52,6 +90,7 @@ int main()
 
         GuiSlider(Rectangle{ 5, 5, 100, 20 }, "launchSpeed", TextFormat("%.2f", launchSpeed), &launchSpeed, 1, 500);
         GuiSlider(Rectangle{ 5, 30, 100, 20 }, "launchAngle", TextFormat("%.2f", launchAngle), &launchAngle, -90, 0);
+        GuiSlider(Rectangle{ 5, 60, 100, 20 }, "gravity", TextFormat("%.2f", sim.gravity.y), &sim.gravity.y, -500, 500);
 
         if (IsKeyDown(KEY_UP)) {
             launchPosition.y -= LaunchAngleAdjustmentSpeed * GetFrameTime();
@@ -64,19 +103,21 @@ int main()
         DrawCircleV(launchPosition, 10, RED);
         DrawLineEx(launchPosition, launchPosition + velocityPreview, 2, RED);
 
-
         //lab2 stuff
         if (IsKeyPressed(KEY_SPACE)) 
         {
-            bird.position = launchPosition;
-            bird.velocity = velocityPreview;
-        }
-            
-        //Draw bird
-        DrawCircleV(bird.position, 15, RED);
+            PhyscicsBody birdToLaunch;
+            birdToLaunch.color = RED;
+            birdToLaunch.radius = 10.0f;
+            birdToLaunch.position = launchPosition;
+            birdToLaunch.velocity = velocityPreview;
 
-        //Vector2 mouseDelta = launchPosition - GetMousePosition();
-        //DrawLineV(launchPosition, GetMousePosition(), Color{0, 0, 0, 60});
+            sim.bodies.push_back(birdToLaunch);
+        }
+
+        sim.Update();
+        sim.Draw();
+        
             
             
 
