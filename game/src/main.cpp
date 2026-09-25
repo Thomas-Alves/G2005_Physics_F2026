@@ -54,7 +54,7 @@ public:
 
     void Draw() 
     {
-        for (int i = 0; bodies.size(); i++)
+        for (int i = 0; i < bodies.size(); i++)
         {
             DrawCircleV(bodies[i].position, bodies[i].radius, bodies[i].color);
         }
