@@ -27,6 +27,8 @@ struct PhyscicsBody
 public:
     Vector2 position = Vector2{ 0, 0 };
     Vector2 velocity = Vector2{ 0, 0 };
+    float mass = 1.0f;
+    float drag = 0.0f;
     Color color = RED;
     float radius = 10.0f;
 
@@ -49,6 +51,10 @@ public:
             bodies[i].position += bodies[i].velocity * FIXED_DELTA_TIME;
             //acceleration is change in velocity over time, gravity is our acceleration in pixels/sec/sec (px/sec^2
             bodies[i].velocity += gravity * FIXED_DELTA_TIME;
+
+            //apply drag to counteract velocity
+            bodies[i].velocity *= 1.0f - (bodies[i].drag * FIXED_DELTA_TIME);
+
         }
     }
 
@@ -64,6 +70,9 @@ public:
 
 //PhyscicsBody bird;// = { Vector2{-1000, -1000}, Vector2{0,0} };
  PhysicsSimulation sim;
+
+
+ float spawnDrag = 0.0f; // damping value to aply physics objects velocities 
 
 
 int main()
@@ -88,9 +97,10 @@ int main()
         // start back video(JOSS LAB ONLINE) at 1:08:00 
         DrawRectangle(0, 0, 400, 600, Color{ 0, 0, 0, 50 });
 
-        GuiSlider(Rectangle{ 5, 5, 100, 20 }, "launchSpeed", TextFormat("%.2f", launchSpeed), &launchSpeed, 1, 500);
+        GuiSlider(Rectangle{ 5, 5, 100, 20 }, "launchSpeed", TextFormat("%.2f", launchSpeed), &launchSpeed, 1, 1000);
         GuiSlider(Rectangle{ 5, 30, 100, 20 }, "launchAngle", TextFormat("%.2f", launchAngle), &launchAngle, -90, 0);
         GuiSlider(Rectangle{ 5, 60, 100, 20 }, "gravity", TextFormat("%.2f", sim.gravity.y), &sim.gravity.y, -500, 500);
+        GuiSlider(Rectangle{ 5, 90, 100, 20 }, "drag", TextFormat("%.2f", spawnDrag), &spawnDrag, 0, 1);
 
         if (IsKeyDown(KEY_UP)) {
             launchPosition.y -= LaunchAngleAdjustmentSpeed * GetFrameTime();
@@ -111,6 +121,7 @@ int main()
             birdToLaunch.radius = 10.0f;
             birdToLaunch.position = launchPosition;
             birdToLaunch.velocity = velocityPreview;
+            birdToLaunch.drag = spawnDrag;
 
             sim.bodies.push_back(birdToLaunch);
         }
